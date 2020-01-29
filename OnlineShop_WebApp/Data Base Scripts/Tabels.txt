@@ -1,0 +1,31 @@
+create table Comment
+(
+	Id int IDENTITY(1,1),
+	ProdutId int,
+	Comment text,
+	UserId int
+);
+
+create table UserM(
+	ID int IDENTITY(1,1) Primary key,
+	Email nvarchar(255),
+	Password nvarchar(255),
+	FIO nvarchar(255),
+	DateOfBirthDay nvarchar(255),
+	AboutMe text,
+	Role int
+);
+
+create table [Order]
+(
+	Id int IDENTITY(1,1),
+	UserId int,
+);
+
+
+create table [ShopList]
+(
+	OrderId int,
+	ProductId int
+);
+

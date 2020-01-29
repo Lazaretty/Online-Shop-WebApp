@@ -1,0 +1,48 @@
+﻿@model List<Product>
+
+@using Microsoft.AspNetCore.Http;
+
+<p>
+    Заказ номер
+    @Context.Session.GetString("OrderId")
+</p>
+
+@{
+    double sum = 0.0;
+}
+
+@foreach (Product p in Model)
+{
+
+    <p>
+        @Html.ActionLink(p.NameOfProduct, "ProductInfo", "Home", new { id = p.Id })
+        @foreach (ShopList s in ViewBag.Amount)
+        {
+            @if (s.ProductId == p.Id)
+            {
+                @s.Amount
+                double pr = p.Price * s.Amount;
+                sum += pr;
+                <b> @pr рублей</b>
+            }
+
+        }
+    </p>
+}
+
+<h2>Всего к оплате @sum </h2>
+
+<form method="post">
+    <br>Адрес Доставки<br>
+    <input type="text" name="DeliveryAddress" />
+    <br>Способ Оплаты<br>
+                     <p>
+                         <select name="PaymentMethod">
+                             <option value="Банковской картой">Банковской картой</option>
+                             <option value="Наличными при получении" selected>Наличным при получении</option>
+                             <option value="Перевод Сбербанк Онлайн">Перевод Сбербанк Онлайн</option>
+                         </select>
+<p></p>
+    <p><button type="submit">Оплатить</button><p>
+</form>
+

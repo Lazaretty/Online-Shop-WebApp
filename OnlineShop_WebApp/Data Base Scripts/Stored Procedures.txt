@@ -1,0 +1,147 @@
+USE IShop
+GO
+
+create procedure GetProductById
+	@ProdID int
+as
+select * 
+from Product
+where Id=@ProdID;
+
+
+
+USE IShop
+GO
+create procedure Addproduct
+	@Id int,
+	@NameOfProduct nvarchar(255),
+	@Price int,
+	@Producer int,
+	@IdSubCategory int
+as
+insert into Product(NameOfProduct,Price,Producer,IdSubCategory)
+values (@NameOfProduct, @Price,@Producer,@IdSubCategory)
+
+
+
+USE IShop
+GO
+CREATE PROCEDURE ShowAllProducts AS
+BEGIN
+	select * from Product;
+END
+
+
+USE IShop
+GO
+
+create procedure GetCommentsByProductID
+	@ProdID int
+as
+select * 
+from Comment
+where Id=@ProdID;
+
+
+USE IShop
+GO
+
+create procedure SetCommentToProduct
+	@ProdID int,
+	@Comment text
+as
+insert into Comment(ProdutId, Comment) 
+values (@ProdID,@Comment );
+
+USE IShop
+GO
+
+create procedure IsRegisted 
+	@EM nvarchar(255)
+as
+select * 
+from UserM
+where Email = @EM
+
+USE [IShop]
+GO
+
+CREATE procedure [AddUser] 
+	@Email nvarchar(255),
+	@Password nvarchar(255),
+	@FIO nvarchar(255),
+	@DateOfBirthDay nvarchar(255),
+	@AboutMe nvarchar(255)
+
+as
+insert into UserM(Email, [Password], FIO, DateOfBirthDay, AboutMe, [Role])
+values (@Email,@Password,@FIO,@DateOfBirthDay,@AboutMe, 1 );
+
+USE [IShop]
+
+GO
+
+CREATE procedure [Login] 
+	@EM nvarchar(255),
+	@Password nvarchar(255)
+as
+select * 
+from UserM
+where Email = @EM and [Password]=@Password
+
+USE [IShop]
+GO
+
+CREATE procedure NewOrder 
+	@UserId int
+as
+INSERT into [Order] (UserId)
+values (@UserId)
+
+Select Id from [Order] 
+WHERE UserId= @UserId
+
+
+USE [IShop]
+GO
+
+CREATE procedure AddProductToOrder 
+	@OrderId int,
+	@ProductId int
+as
+INSERT into [ShopList] (OrderId, ProductId)
+values (@OrderId, @ProductId)
+
+
+USE [IShop]
+GO
+
+CREATE procedure GetShopList 
+	@OrderId int
+as
+select * 
+from Product
+where Id = ANY(SELECT ProductId from ShopList WHERE OrderId = @OrderId)
+
+
+USE [IShop]
+GO
+
+CREATE procedure GetAmountOfProducts 
+	@OrderId int
+as
+SELECT ProductId, count(ProductId) Amount 
+from ShopList
+where OrderId = @OrderId
+GROUP BY  ProductId
+
+USE [IShop]
+GO
+
+CREATE procedure FinalOrder 
+	@UserId int,
+	@PaymentMethod nvarchar(20),
+	@DeliveryAddress nvarchar(50)
+as
+INSERT into [Order] ( UserId, PaymentMethod, DeliveryAddress)
+values ( @UserId, @PaymentMethod, @DeliveryAddress)

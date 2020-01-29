@@ -1,0 +1,42 @@
+﻿@model List<Product>
+
+
+@using Microsoft.AspNetCore.Http;
+
+@if (Context.Session.GetString("Username") != null)
+{
+    <h2> @Context.Session.GetString("Username"), Здравствуйте! </h2>
+}
+
+<h2> Количество товаров в наличии: @Model.Count</h2>
+@foreach (Product p in Model)
+{
+<p>
+    @Html.ActionLink(p.NameOfProduct, "ProductInfo", "Home", new { id = p.Id })
+
+    @if (Context.Session.GetString("UserId") != null)
+    {
+        <input type="button" onclick="AddProductToList(@p.Id)" value="Добавить в корзину" id="sendButton" class="btn btn-info">
+    }
+</p>
+}
+
+
+<script type="text/javascript">
+    function AddProductToList(productId) {
+        var ProdId = productId;
+
+        $.ajax({
+            url: "/Order/AddProductToList",
+            data: { "ProductId": ProdId },
+
+            dataType: "html",
+            success: function (data) {
+                location.reload();
+            },
+            //error: function () {
+            //    alert('Error!');
+            //
+        });
+    }
+</script>

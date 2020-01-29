@@ -1,0 +1,53 @@
+﻿@model Product
+@{
+}
+<h1>Название продукта</h1>
+<p>@Model.NameOfProduct</p>
+<h1>Цена</h1>
+<p>@Model.Price</p>
+<h1>Производитель</h1>
+<p>@Model.Producer</p>
+
+<h1>Оставить Комментарий</h1>
+
+<p><textarea rows="10" cols="45" name="text" placeholder="Enter your comment here ..." id="coment"></textarea></p>
+<input type="button" onclick="SendComment()" value="Оставить комментарий" id="sendButton" class="btn btn-success">
+
+
+<script type="text/javascript">
+    function SendComment()
+    {
+        var ProdId = @Model.Id;
+        var Comment = $('#coment').val();
+
+        if (Comment == "")
+            return;
+
+
+        $.ajax({
+            url: "/Home/SetComment",
+            data: { "id": ProdId, "Comment": Comment },
+
+            dataType: "html",
+            success: function (data) {
+                location.reload();
+            },
+            error: function () {
+                alert('Error!');
+            }
+
+        });
+
+    }
+</script>
+
+
+<h1>Комментарии</h1>
+
+
+@foreach (string a in ViewBag.Comments)
+{
+    <p>@a</p>
+}
+
+

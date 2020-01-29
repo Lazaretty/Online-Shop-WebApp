@@ -1,0 +1,37 @@
+﻿@model OnlineShop_WebApp.Models.Product
+
+<h2>Добавить Товар</h2>
+<div class="text-center">
+    <form asp-action="AddProduct" asp-controller="Home" asp-anti-forgery="true">
+        <div>
+            <div>
+                <label asp-for="NameOfProduct">Название продукта</label><br />
+                <input type="text" asp-for="NameOfProduct" />
+            </div>
+            <div>
+                <label asp-for="Price">Цена</label><br />
+                <input asp-for="Price" />
+            </div>
+            <div>
+                <label asp-for="Producer">Производитель</label><br />
+                <input asp-for="Producer" />
+            </div>
+            <div>
+                <label asp-for="IdSubCategory">Подкатегория</label><br />
+                <input type="text" asp-for="IdSubCategory" />
+            </div>
+
+            
+                <div>
+                    <label asp-for="FileUpload.FormFile"></label>
+                    <input asp-for="FileUpload.FormFile" type="file">
+                </div>
+          
+            <div>
+                <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+            </div>
+
+
+        </div>
+    </form>
+</div>
